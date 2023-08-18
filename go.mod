@@ -1,4 +1,4 @@
-module github.com/agripaa/ticket-app
+module github.com/jeypc/go-jwt-mux
 
 go 1.21.0
 
