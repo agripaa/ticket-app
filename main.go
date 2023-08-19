@@ -22,10 +22,10 @@ func main() {
 	api := router.PathPrefix("/api").Subrouter()
 
 	api.HandleFunc("/products", product.GetDataAll).Methods("GET")
-	api.HandleFunc("/:id/product", product.FindOne).Methods("GET")
-	api.HandleFunc("/product", product.CreateProduct).Methods("CREATE")
-	api.HandleFunc("/:id/product", product.UpdateProduct).Methods("PATCH")
-	api.HandleFunc("/product", product.DeleteProduct).Methods("DELETE")
+	api.HandleFunc("/{id}/product", product.FindOne).Methods("GET")
+	api.HandleFunc("/product", product.CreateProduct).Methods("POST")
+	api.HandleFunc("/{id}/product", product.UpdateProduct).Methods("PATCH")
+	api.HandleFunc("/{id}/product", product.DeleteProduct).Methods("DELETE")
 	api.Use(middleware.JWTMiddleware)
 
 	log.Fatal(http.ListenAndServe(":8080", router))

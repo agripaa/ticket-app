@@ -12,7 +12,7 @@ func ConnectionDatabase() {
 	if err != nil {
 		panic(err)
 	}
-	db.AutoMigrate(&User{})
+	db.AutoMigrate(&User{}, &Product{})
 
 	DB = db
 }
