@@ -7,6 +7,7 @@ import (
 	"github.com/gorilla/mux"
 	auth "github.com/jeypc/go-jwt-mux/controllers/auth"
 	"github.com/jeypc/go-jwt-mux/controllers/product"
+	"github.com/jeypc/go-jwt-mux/middleware"
 	models "github.com/jeypc/go-jwt-mux/models"
 )
 
@@ -17,11 +18,15 @@ func main() {
 	router.HandleFunc("/login", auth.Login).Methods("POST")
 	router.HandleFunc("/register", auth.Register).Methods("POST")
 	router.HandleFunc("/logout", auth.Logout).Methods("DELETE")
-	router.HandleFunc("/api/products", product.GetDataAll).Methods("GET")
-	router.HandleFunc("/api/:id/product", product.FindOne).Methods("GET")
-	router.HandleFunc("/api/product", product.CreateProduct).Methods("CREATE")
-	router.HandleFunc("/api/:id/product", product.UpdateProduct).Methods("PATCH")
-	router.HandleFunc("/api/product", product.DeleteProduct).Methods("DELETE")
+
+	api := router.PathPrefix("/api").Subrouter()
+
+	api.HandleFunc("/products", product.GetDataAll).Methods("GET")
+	api.HandleFunc("/:id/product", product.FindOne).Methods("GET")
+	api.HandleFunc("/product", product.CreateProduct).Methods("CREATE")
+	api.HandleFunc("/:id/product", product.UpdateProduct).Methods("PATCH")
+	api.HandleFunc("/product", product.DeleteProduct).Methods("DELETE")
+	api.Use(middleware.JWTMiddleware)
 
 	log.Fatal(http.ListenAndServe(":8080", router))
 }
