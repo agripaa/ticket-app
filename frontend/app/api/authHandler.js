@@ -13,7 +13,6 @@ async function HandleLoginUser(username, password){
     
     try {
         const loginData = await api.post(AUTH_ROUTES.LOGIN, formdata)
-        window.location.href('/dashboard')
         return loginData;
     } catch (err) {
         console.error(err);
