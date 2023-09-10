@@ -2,18 +2,21 @@
 import * as React from 'react';
 import { HandleLoginUser } from "./api/authHandler";
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 export default function Home() {
   const [values, setValues] = React.useState({
     username: "",
     password: "",
   })
+  const { push } = useRouter();
 
   async function handleSubmit(e) {
       e.preventDefault();
       const {username, password} = values;
       try {
         HandleLoginUser(username, password);
+        push('/dashboard');
       } catch (err) {
         console.error(err);
       }
@@ -48,7 +51,7 @@ export default function Home() {
                 onChange={handleChange}
               />
               <div className="flex items-center justify-center mt-4">
-                <button type="submit" className="border-2 border-teal-700 bg-teal-700 w-1/4 p-1 rounded-md hover:bg-teal-800 hover:border-teal-800"><Link href="/dashboard">Submit</Link></button>
+                <button type="submit" className="border-2 border-teal-700 bg-teal-700 w-1/4 p-1 rounded-md hover:bg-teal-800 hover:border-teal-800">Submit</button>
               </div>
             </form>
             <div className="flex justify-center items-center mt-4">

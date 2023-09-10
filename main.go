@@ -6,6 +6,7 @@ import (
 	"github.com/gorilla/mux"
 	auth "github.com/jeypc/go-jwt-mux/controllers/auth"
 	"github.com/jeypc/go-jwt-mux/controllers/product"
+	"github.com/jeypc/go-jwt-mux/middleware"
 	models "github.com/jeypc/go-jwt-mux/models"
 	"github.com/rs/cors"
 )
@@ -23,6 +24,7 @@ func main() {
 	router.HandleFunc("/api/ticket/product", product.CreateProduct).Methods("POST")
 	router.HandleFunc("/api/ticket/{id}/product", product.UpdateProduct).Methods("PATCH")
 	router.HandleFunc("/api/ticket/{id}/product", product.DeleteProduct).Methods("DELETE")
+	router.Use(middleware.JWTMiddleware)
 
 	c := cors.New(cors.Options{
 		AllowedOrigins:   []string{"http://localhost:3000"},
